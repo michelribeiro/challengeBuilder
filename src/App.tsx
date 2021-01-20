@@ -86,12 +86,12 @@ const App: React.FC = () => {
             <div className="mainRole">
                 <h3>O clima em {weather?.name}</h3>
                 <ul>
-                    <li><span>País:</span> <strong>{weather?.sys.country}</strong></li>
-                    <li><span>Temperatura: </span></li>
-                    <li><span>Nuvens:</span></li>
-                    <li><span>Umidade:</span></li>
-                    <li><span>Pressão:</span></li>
-                    <li><span>Velocidade do vento:</span></li>
+                    <li><span>País:</span><strong>{weather?.sys.country}</strong></li>
+                    <li><span>Temperatura:</span><strong>{weather?.main.temp}ºC</strong></li>
+                    <li><span>Nuvens:</span><strong>{weather?.clouds.all}%</strong></li>
+                    <li><span>Umidade:</span><strong>{weather?.main.humidity}%</strong></li>
+                    <li><span>Pressão:</span><strong>{weather?.main.pressure}hPa</strong></li>
+                    <li><span>Velocidade do vento:</span><strong>{weather?.wind.speed}m/s</strong></li>
                 </ul>
             </div>
         </Fragment>
