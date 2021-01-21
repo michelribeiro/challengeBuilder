@@ -13,10 +13,9 @@
 
 ---
 
-<p>You must create the `.env` file with the `REACT_APP_OPEN_WEATHER_KEY` and `REACT_APP_GOOGLE_MAPS_KEY` environment variable, placing your private key from the [openweathermap website](https://openweathermap.org/) and [google api keys](https://console.developers.google.com/)
-</p>
+>You must create the `.env` file with the `REACT_APP_OPEN_WEATHER_KEY` and `REACT_APP_GOOGLE_MAPS_KEY` environment variable, placing your private key from the [openweathermap website](https://openweathermap.org/) and [google api keys](https://console.developers.google.com/)
 
----
+
 
 <h3>First, install all project dependencies</h3>
 
