@@ -1,20 +1,21 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import './App.scss';
-import { DataLocation } from './Models/weather.interface';
-
-interface LocationAllow {
-    answer: boolean;
-}
+import { DataLocation } from './Models/weather.model';
+import { LocationAllowModel } from './Models/locationallow.model';
+import AppCard from './components/AppCard';
+import { error } from 'console';
 
 const App: React.FC = () => {
-    const [locationAllow, setLocationAllow] = useState<LocationAllow>({ answer: false });
+    const [locationAllow, setLocationAllow] = useState<LocationAllowModel>();
     const [weather, setWeather] = useState<DataLocation>();
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((pos) => {
             getLocationData(pos.coords.latitude, pos.coords.longitude)
             setLocationAllow({ answer: true });
+        }, () => {
+            setLocationAllow({answer: false});
         })
     }, [])
 
@@ -28,11 +29,10 @@ const App: React.FC = () => {
                 units: 'metric'
             }
         });
-
         setWeather(response.data);
     }
 
-    if (locationAllow.answer === false) {
+    if (locationAllow?.answer === false) {
         return (
             <React.Fragment>
                 <h3>Precisamos acessar sua localização para pegar os dados do tempo.</h3>
@@ -47,17 +47,7 @@ const App: React.FC = () => {
     } else {
         return (
             <Fragment>
-            <div className="mainRole">
-                <h3>O clima em {weather?.name}</h3>
-                <ul>
-                    <li><span>País:</span><strong>{weather?.sys.country}</strong></li>
-                    <li><span>Temperatura:</span><strong>{weather?.main.temp}ºC</strong></li>
-                    <li><span>Nuvens:</span><strong>{weather?.clouds.all}%</strong></li>
-                    <li><span>Umidade:</span><strong>{weather?.main.humidity}%</strong></li>
-                    <li><span>Pressão:</span><strong>{weather?.main.pressure}hPa</strong></li>
-                    <li><span>Velocidade do vento:</span><strong>{weather?.wind.speed}m/s</strong></li>
-                </ul>
-            </div>
+                <AppCard {...weather}></AppCard>
         </Fragment>
         );
     }
