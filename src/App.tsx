@@ -1,18 +1,25 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import './App.scss';
+import AppCard from './components/AppCard';
+import AppMaps from './components/AppMaps';
+
 import { DataLocation } from './Models/weather.model';
 import { LocationAllowModel } from './Models/locationallow.model';
-import AppCard from './components/AppCard';
-import { error } from 'console';
+import { PositionModel } from './Models/position.model';
+
+const mapUrl = `https://maps.googleapis.com/maps/api/js?v=3.exp&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`;
+const apiWeather = `http://api.openweathermap.org/data/2.5/weather`;
 
 const App: React.FC = () => {
     const [locationAllow, setLocationAllow] = useState<LocationAllowModel>();
     const [weather, setWeather] = useState<DataLocation>();
+    const [position, setPosition] = useState<PositionModel>({ lat: 0, lng:0 });
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((pos) => {
             getLocationData(pos.coords.latitude, pos.coords.longitude)
+            getAddress(pos.coords.latitude, pos.coords.longitude)
             setLocationAllow({ answer: true });
         }, () => {
             setLocationAllow({answer: false});
@@ -20,7 +27,7 @@ const App: React.FC = () => {
     }, [])
 
     let getLocationData = async (lat: number, long: number) => {
-        let response = await axios.get("http://api.openweathermap.org/data/2.5/weather", {
+        let response = await axios.get(apiWeather, {
             params: {
                 lat: lat,
                 lon: long,
@@ -30,6 +37,13 @@ const App: React.FC = () => {
             }
         });
         setWeather(response.data);
+    }
+
+    let getAddress = (lat: number, long: number) => {
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&sensor=false&key=${process.env.REACT_APP_GOOGLE_MAPS_KEY}`)
+        .then(res => res.json())
+        .then(data => setPosition({lat: lat, lng: long, address: data.results[0].formatted_address}))
+        .catch(error => console.log(error))
     }
 
     if (locationAllow?.answer === false) {
@@ -47,7 +61,16 @@ const App: React.FC = () => {
     } else {
         return (
             <Fragment>
-                <AppCard {...weather}></AppCard>
+                <main>
+                    <AppCard {...weather} />
+                    <AppMaps
+                        {...position}
+                        googleMapURL = {mapUrl}
+                        containerElement = {<div style={{width:'480px', height: '400px'}} />}
+                        mapElement = {<div style={{height: '100%'}} />}
+                        loadingElement = {<p>Carregando o mapa.</p>}
+                    />
+                </main>
         </Fragment>
         );
     }
