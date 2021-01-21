@@ -17,6 +17,10 @@ const App: React.FC = () => {
     const [position, setPosition] = useState<PositionModel>({ lat: 0, lng:0 });
 
     useEffect(() => {
+        getPosition()
+    }, [])
+
+    let getPosition = () => {
         navigator.geolocation.getCurrentPosition((pos) => {
             getLocationData(pos.coords.latitude, pos.coords.longitude)
             getAddress(pos.coords.latitude, pos.coords.longitude)
@@ -24,7 +28,7 @@ const App: React.FC = () => {
         }, () => {
             setLocationAllow({answer: false});
         })
-    }, [])
+    }
 
     let getLocationData = async (lat: number, long: number) => {
         let response = await axios.get(apiWeather, {
@@ -46,6 +50,10 @@ const App: React.FC = () => {
         .catch(error => console.log(error))
     }
 
+    let loadLocalPage = () => {
+        getPosition()
+    }
+
     if (locationAllow?.answer === false) {
         return (
             <React.Fragment>
@@ -62,7 +70,11 @@ const App: React.FC = () => {
         return (
             <Fragment>
                 <main>
-                    <AppCard {...weather} />
+                    <div className="colunmData">
+                        <AppCard {...weather} />
+                        <button onClick={loadLocalPage}>Recarregar</button>
+                    </div>
+
                     <AppMaps
                         {...position}
                         googleMapURL = {mapUrl}

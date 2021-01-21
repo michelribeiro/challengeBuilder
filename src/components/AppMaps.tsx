@@ -10,7 +10,7 @@ import { PositionModel } from '../Models/position.model';
 const AppMaps: React.FC<PositionModel> = ({lat, lng, address}:PositionModel) => {
     return (
         <Fragment>
-            <h3>Seu endereço: {address}</h3>
+            <h3 className="address">Seu endereço: {address}</h3>
             <GoogleMap
                 defaultZoom={16}
                 defaultCenter={{lat: lat, lng:lng}} >

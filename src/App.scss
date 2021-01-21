@@ -4,15 +4,68 @@ main {
   height: 100vh;
   align-items: center;
 
+  .colunmData {
+    display: flex;
+    flex-direction: column;
+    
+    button {
+      cursor: pointer;
+      height: 25px;
+      width: 230px;
+      margin: 0 auto;
+    }
+  }
+
   .mainRole {
+    background-color: #fff;
     flex-direction: column;
     border: solid 0.1rem #efefef;
-    padding: 1rem;
+    margin: 1rem;
     border-radius: 1rem;
+    min-width: 250px;
 
     @media (max-width: 600px) {
       width: 100%;
     }
+    header {
+      background-color: aqua;
+      padding: 1rem;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      h2 {
+        font-weight: 700;
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+
+        span {
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        strong {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .address {
+    background-color: #fff;
+    padding: 1rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border-radius: 1rem;
+    border:solid 1px #efefef;
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 
 }

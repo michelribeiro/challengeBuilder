@@ -14,7 +14,7 @@ const AppCard = ({
   <React.Fragment>
     <div className="mainRole">
         <header>
-          <p>O clima em {name}</p>
+          <h2>O clima em {name}</h2>
         </header>
         <ul>
             <li><span>País:</span><strong>{sys.country}</strong></li>
